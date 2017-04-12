@@ -1,0 +1,121 @@
+body {
+    background-color: #bdc3c7;
+}
+/* Header */
+header {
+    border: 5px solid #d35400;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #2c3e50;
+    margin: 20px;
+    padding: 10px;
+}
+
+/* Navigation Bar */
+nav > ul {
+    border: 5px solid #d35400;
+    border-radius: 15px;
+    margin: 20px;
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    background-color: #2c3e50;
+}
+nav > ul li {
+    float: left;
+}
+nav > ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+nav > ul li a:hover:not(.active) {
+    background-color: #d35400;
+}
+nav > ul li a.active {
+    background-color: #bdc3c7;
+}
+
+/* Footer */
+footer {
+    margin: 20px;
+    border: 5px solid #d35400;
+    border-radius: 15px;
+    color: white;
+    background-color: #2c3e50;
+    text-align: center;
+    height: 50px;
+    padding: 15px;
+}
+
+/* ----- EXTRAS ----- */
+/* Panels */
+.panel {
+    border: 5px solid #d35400;
+    color: white;
+    border-radius: 15px 50px;
+    background-color: #2c3e50;
+    width: auto;
+    margin: 20px;
+    padding: 20px;
+}
+
+/* Tabla de productos */
+.horizontalTable {
+    margin: 20px;
+    color: white;
+    border-color: #d35400;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+
+.horizontalTable th {
+    border: none;
+    background-color: #2c3e50;
+    color: #e67e22;
+    padding: 10px;
+    text-align: left;
+    font-size: 22px;
+}
+.horizontalTable td {
+    border: none;
+    border-top: solid 1px #957030;
+    background-color: #34495e;
+    padding: 10px;
+}
+.horizontalTable th:first-child {
+    border-radius: 10px 0 0 0;
+}
+.horizontalTable th:last-child {
+    border-radius: 0 10px 0 0;
+}
+.horizontalTable tr:last-child td:first-child {
+    border-radius: 0 0 0 10px;
+}
+.horizontalTable tr:last-child td:last-child {
+    border-radius: 0 0 10px 0;
+}
+
+.projects{
+    width: 50%;
+}
+
+.tasks{
+    width: 80%;
+}
+.tasks th, .task td{
+    width: 30%;
+}
+
+#login {
+    text-align: center;
+    width: 150px;
+    margin: 0 auto 20px;
+}
+
+/* Utilities */
+.clearfix {
+    clear: both;
+}
