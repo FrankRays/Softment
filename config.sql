@@ -3,9 +3,10 @@ DROP TABLE IF EXISTS 'user';
 DROP TABLE IF EXISTS 'customer';
 DROP TABLE IF EXISTS 'project';
 DROP TABLE IF EXISTS 'resource';
-DROP TABLE IF EXISTS 'task';
 DROP TABLE IF EXISTS 'team';
 DROP TABLE IF EXISTS 'team_member';
+DROP TABLE IF EXISTS 'task';
+DROP TABLE IF EXISTS 'notification';
 
 
 /* Create tables */
@@ -33,7 +34,7 @@ CREATE TABLE `project` (
 	`name`	VARCHAR(20) NOT NULL UNIQUE,
 	`description`	TEXT,
 	`creation_date`	INTEGER,
-	`state`	VARCHAR(16) NOT NULL,
+	`state`	VARCHAR(16) NOT NULL, /* "Sin asignar" - "En proceso" - "Finalizado" */
 	`finish_date` INTEGER,
 	PRIMARY KEY(`id`),
 	FOREIGN KEY(`customer_id`) REFERENCES `customer`(`id`),
@@ -46,29 +47,19 @@ CREATE TABLE `resource` (
 	`type`	VARCHAR(16),
 	`name`	VARCHAR(32),
 	`email` VARCHAR(64),
-	`state`	VARCHAR(16),
+	`state`	VARCHAR(16), /* "Sin asignar" - "Asignado" */
 	PRIMARY KEY(`id`),
 	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
 );
-
-CREATE TABLE `task` (
-	`id`	INTEGER,
-	`project_id` INTEGER,
-	`name`	VARCHAR(32) NOT NULL,
-	`description`	VARCHAR(64),
-	`start_date`	INTEGER NOT NULL,
-	`state`	VARCHAR(16) NOT NULL,
-	`finish_date`	INTEGER NOT NULL,
-	PRIMARY KEY(`id`),
-	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
-);
-
+/* EL NOMBRE DEL EQUIPO SE PODRIA SACAR CON UNA FK DEL user_ID*/
 CREATE TABLE `team`(
 	`id` INTEGER,
+	`user_id` INTEGER,
 	`project_id` INTEGER,
 	`name` INTEGER NOT NULL,
-	`state` VARCHAR(16) NOT NULL,
+	`state` VARCHAR(16) NOT NULL, /* "Sin asignar" - "Asignado" */
 	PRIMARY KEY(`id`),
+	FOREIGN KEY(`user_id`) REFERENCES `user`(`id`),
 	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
 );
 
@@ -79,6 +70,32 @@ CREATE TABLE `team_member`(
 	PRIMARY KEY(`id`),
 	FOREIGN KEY(`resource_id`) REFERENCES resource(`id`),
 	FOREIGN KEY(`team_id`) REFERENCES team(`id`)
+);
+
+CREATE TABLE `task` (
+	`id`	INTEGER,
+	`project_id` INTEGER,
+	`team_id` INTEGER,
+	`name`	VARCHAR(32) NOT NULL,
+	`description`	VARCHAR(64),
+	`start_date`	INTEGER NOT NULL,
+	`state`	VARCHAR(16) NOT NULL, /* "Sin empezar" - "En proceso" - "Finalizado" */
+	`finish_date`	INTEGER NOT NULL,
+	PRIMARY KEY(`id`),
+	FOREIGN KEY(`team_id`) REFERENCES `team`(`id`),
+	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
+);
+
+CREATE TABLE `notification`(
+	`id` INTEGER,
+	`user_id` INTEGER,
+	`project_id` INTEGER,
+	`name` VARCHAR(64),
+	`description` VARCHAR(128),
+	`state` VARCHAR(16) NOT NULL, /* "Pendiente" - "Resuelta" */
+	PRIMARY KEY(`id`),
+	FOREIGN KEY(`user_id`) REFERENCES `user`(`id`),
+	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
 );
 
 /* Poblate table */
@@ -112,25 +129,32 @@ INSERT INTO resource(type, name, state)
 INSERT INTO resource(type, name, state, project_id)
 	VALUES ("Programador", "Zabai Armas Herrera", "Asignado", 2);
 
-INSERT INTO task(project_id, name, description, start_date, state, finish_date)
-	VALUES (2, "Analizar software similares", "Familiarizarse con software establecido en el mercado", 1490030081, "Sin empezar", 1489529681);
-INSERT INTO task(project_id, name, description, start_date, state, finish_date)
-	VALUES (2, "Modelado de negocio", "Diagramas de modelado de negocio", 1489511681, "En proceso", 1489529681);
-INSERT INTO task(project_id, name, description, start_date, state, finish_date)
-	VALUES (2, "Análisis de mercado", "Informe de mercado", 1488752081, "Finalizada", 1489097681);
-
 INSERT INTO team(name, state)
 	VALUES ("Analistas de GS1", "Sin asignar");
-INSERT INTO team(project_id, name, state)
-	VALUES (2, "Estudiantes de IR", "Asignado");
+INSERT INTO team(user_id, project_id, name, state)
+	VALUES (3, 2, "Estudiantes de IR", "Asignado");
 INSERT INTO team(project_id, name, state)
 	VALUES (2, "Estudiantes de ADE", "Asignado");
 
 INSERT INTO team_member(resource_id, team_id)
-	VALUES (1, 1); /* Hector a GS1 */
+	VALUES (2, 1); /* Carlos a GS1 */
+INSERT INTO team_member(resource_id, team_id)
+	VALUES (1, 2); /* Héctor a IR */
 INSERT INTO team_member(resource_id, team_id)
 	VALUES (2, 2); /* Carlos a IR */
 INSERT INTO team_member(resource_id, team_id)
-	VALUES (3, 3); /* Zabai a ADE */
+	VALUES (3, 2); /* Zabai a IR */
 INSERT INTO team_member(resource_id, team_id)
-	VALUES (2, 3);
+	VALUES (3, 3); /* Zabai a ADE */
+
+INSERT INTO task(project_id, team_id, name, description, start_date, state, finish_date)
+	VALUES (2, 2, "Analizar software similares", "Familiarizarse con software establecido en el mercado", 1490030081, "Sin empezar", 1489529681);
+INSERT INTO task(project_id, team_id, name, description, start_date, state, finish_date)
+	VALUES (2, 2, "Modelado de negocio", "Diagramas de modelado de negocio", 1489511681, "En proceso", 1489529681);
+INSERT INTO task(project_id, team_id, name, description, start_date, state, finish_date)
+	VALUES (2, 2, "Análisis de mercado", "Informe de mercado", 1488752081, "Finalizada", 1489097681);
+
+INSERT INTO notification(user_id, project_id, name, state)
+	VALUES (3, 2, "Me rompí la pierna", "Pendiente");
+INSERT INTO notification(user_id, project_id, name, state)
+	VALUES (3, 2, "Explotó el ordenador", "Resuelta");

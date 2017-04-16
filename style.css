@@ -141,8 +141,8 @@ button:hover{
 .tasks{
     width: 80%;
 }
-.tasks th, .task td{
-    width: 30%;
+.tasks td{
+    width: 20%;
 }
 
 #login {
