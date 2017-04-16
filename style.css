@@ -10,6 +10,9 @@ header {
     margin: 20px;
     padding: 10px;
 }
+header img{
+    width: 15%;
+}
 
 /* Navigation Bar */
 nav > ul {
@@ -50,7 +53,40 @@ footer {
     padding: 15px;
 }
 
-/* ----- EXTRAS ----- */
+/* ----- Complements ----- */
+/* Headers */
+h1{
+    color: #2c3e50;
+    margin: 20px;
+}
+
+/* Buttons */
+button{
+    border: 3px solid #d35400;
+    border-radius: 10px;
+    background-color: #2c3e50;
+    color: white;
+    margin: 20px;
+    padding: 5px;
+}
+button:hover{
+    background-color: #e67e22;
+    cursor: pointer;
+}
+
+.button{
+    border: 3px solid #d35400;
+    border-radius: 10px;
+    background-color: #2c3e50;
+    color: white;
+    margin: 0px;
+    padding: 5px;
+}
+.button:hover{
+    background-color: #e67e22;
+    cursor: pointer;
+}
+
 /* Panels */
 .panel {
     border: 5px solid #d35400;
@@ -62,7 +98,7 @@ footer {
     padding: 20px;
 }
 
-/* Tabla de productos */
+/* Tables */
 .horizontalTable {
     margin: 20px;
     color: white;
@@ -113,6 +149,32 @@ footer {
     text-align: center;
     width: 150px;
     margin: 0 auto 20px;
+}
+
+/* Forms */
+.form-container{
+    display: table;
+    border-collapse: separate;
+    border-spacing: 50px 0px;
+    margin: 20px;
+}
+.form-container form > button{
+    position: relative;
+    top: -50%;
+    left: 100%;
+}
+.form-section{
+    display: table-cell;
+    border: 5px solid #d35400;
+    border-radius: 20px;
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+.form-section legend{
+    border-radius: 5px;
+    background-color: #d35400;
 }
 
 /* Utilities */

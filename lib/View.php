@@ -14,7 +14,7 @@ class View{
                     
                     <body>
                         <header>
-                            <h1><img src="../img/logo.jpg" alt="SoftMent"></h1>
+                            <img src="../img/SoftMent.png" alt="SoftMent">
                         </header>
 HEADER;
         User::session_start();

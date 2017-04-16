@@ -36,7 +36,7 @@ NAV2;
     public static function show_tasks_with($state){
         if(!$_GET) return;
 
-        echo "<h1 style='color: #2c3e50; margin: 20px;'>Tareas $state</h1>";
+        echo "<h1>Tareas $state</h1>";
         $db = new DB();
         $result = $db->execute_query("SELECT * FROM task WHERE project_id=? AND state=?;", array($_GET['id'], $state));
 
@@ -58,12 +58,14 @@ NAV2;
 HEAD;
                     $first = false;
                 }
+                $startDate = date("Y-m-d H:i:s", $task['start_date']);
+                $finishDate = date("Y-m-d H:i:s", $task['finish_date']);
                 echo <<<BODY
                 <tr>
                     <td>{$task['name']}</td>
                     <td>{$task['description']}</td>
-                    <td>{$task['start_date']}</td>
-                    <td>{$task['finish_date']}</td>
+                    <td>{$startDate}</td>
+                    <td>{$finishDate}</td>
                 </tr>
 BODY;
             }
@@ -74,7 +76,7 @@ BODY;
     public static function show_team_with($state){
         if(!$_GET) return;
 
-        echo "<h1 style='color: #2c3e50; margin: 20px;'>Equipos $state</h1>";
+        echo "<h1>Equipos $state</h1>";
         $db = new DB();
         if($state == "Sin asignar")
             $result = $db->execute_query("SELECT * FROM team WHERE project_id=? AND task_id IS NULL;", array($_GET['id']));

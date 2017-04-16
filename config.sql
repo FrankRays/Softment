@@ -14,7 +14,7 @@ CREATE TABLE `user` (
 	`nickname`	VARCHAR(20) UNIQUE,
 	`password`	VARCHAR(32),
 	`name`	VARCHAR(64),
-	`type` INTEGER,
+	`type` INTEGER, /* 1 Director - 2 Jefe - 3 Equipo */
 	PRIMARY KEY(`id`)
 );
 
@@ -25,7 +25,6 @@ CREATE TABLE `customer` (
 	`telephone`	INTEGER,
 	PRIMARY KEY(`id`)
 );
-
 
 CREATE TABLE `project` (
 	`id`	INTEGER,
@@ -46,6 +45,7 @@ CREATE TABLE `resource` (
 	`project_id`	INTEGER,
 	`type`	VARCHAR(16),
 	`name`	VARCHAR(32),
+	`email` VARCHAR(64),
 	`state`	VARCHAR(16),
 	PRIMARY KEY(`id`),
 	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
@@ -63,24 +63,22 @@ CREATE TABLE `task` (
 	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
 );
 
-CREATE TABLE `team` (
-	`id`	INTEGER,
-	`project_id`	INTEGER,
-	`task_id` INTEGER,
-	`name`	VARCHAR(32),
+CREATE TABLE `team`(
+	`id` INTEGER,
+	`project_id` INTEGER,
+	`name` INTEGER NOT NULL,
+	`state` VARCHAR(16) NOT NULL,
 	PRIMARY KEY(`id`),
-	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`),
-	FOREIGN KEY(`task_id`) REFERENCES `task`(`id`)
+	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
 );
 
-CREATE TABLE `team_member` (
-	`id`	INTEGER,
-	`team_id`	INTEGER,
-	`name`	VARCHAR(32) NOT NULL,
-	`email`	VARCHAR(64),
-	`availability`	VARCHAR(16) NOT NULL,
+CREATE TABLE `team_member`(
+	`id` INTEGER,
+	`resource_id` INTEGER,
+	`team_id` INTEGER,
 	PRIMARY KEY(`id`),
-	FOREIGN KEY(`team_id`) REFERENCES `team`(`id`)
+	FOREIGN KEY(`resource_id`) REFERENCES resource(`id`),
+	FOREIGN KEY(`team_id`) REFERENCES team(`id`)
 );
 
 /* Poblate table */
@@ -108,11 +106,11 @@ INSERT INTO project(customer_id, name, description, state)
 	VALUES (3, "Stalk Cam", "Controlador de camaras de seguridad", "Finalizado");
 	
 INSERT INTO resource(type, name, state)
-	VALUES ("Empleado", "Héctor Déniz Álvarez", "Sin asignar");
+	VALUES ("EVE 24/7", "Héctor Déniz Álvarez", "Sin asignar");
 INSERT INTO resource(type, name, state)
-	VALUES ("Empleado", "Carlos Esteban León", "Sin asignar");
+	VALUES ("Superviviente", "Carlos Esteban León", "Sin asignar");
 INSERT INTO resource(type, name, state, project_id)
-	VALUES ("Empleado", "Zabai Armas Herrera", "Asignado", 2);
+	VALUES ("Programador", "Zabai Armas Herrera", "Asignado", 2);
 
 INSERT INTO task(project_id, name, description, start_date, state, finish_date)
 	VALUES (2, "Analizar software similares", "Familiarizarse con software establecido en el mercado", 1490030081, "Sin empezar", 1489529681);
@@ -121,9 +119,18 @@ INSERT INTO task(project_id, name, description, start_date, state, finish_date)
 INSERT INTO task(project_id, name, description, start_date, state, finish_date)
 	VALUES (2, "Análisis de mercado", "Informe de mercado", 1488752081, "Finalizada", 1489097681);
 
-INSERT INTO team(project_id, name)
-	VALUES (2, "Analistas de GS1");
-INSERT INTO team(project_id, task_id, name)
-	VALUES (2, 2, "Estudiantes de IR");
-INSERT INTO team(project_id, task_id, name)
-	VALUES (2, 3, "Estudiantes de ADE");
+INSERT INTO team(name, state)
+	VALUES ("Analistas de GS1", "Sin asignar");
+INSERT INTO team(project_id, name, state)
+	VALUES (2, "Estudiantes de IR", "Asignado");
+INSERT INTO team(project_id, name, state)
+	VALUES (2, "Estudiantes de ADE", "Asignado");
+
+INSERT INTO team_member(resource_id, team_id)
+	VALUES (1, 1); /* Hector a GS1 */
+INSERT INTO team_member(resource_id, team_id)
+	VALUES (2, 2); /* Carlos a IR */
+INSERT INTO team_member(resource_id, team_id)
+	VALUES (3, 3); /* Zabai a ADE */
+INSERT INTO team_member(resource_id, team_id)
+	VALUES (2, 3);
