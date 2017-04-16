@@ -98,7 +98,7 @@ CREATE TABLE `notification`(
 	FOREIGN KEY(`project_id`) REFERENCES `project`(`id`)
 );
 
-/* Poblate table */
+/* Poblate tables */
 INSERT INTO user(nickname, password, name, type)
 	VALUES ("Director", "1234", "Juan Hernández Cabrera", 1);
 INSERT INTO user(nickname, password, name, type)
