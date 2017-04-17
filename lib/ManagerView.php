@@ -82,6 +82,7 @@ FORM;
                             <th>Descripción</th>
                             <th>Fecha Inicial</th>
                             <th>Fecha Límite</th>
+                            <th>Equipo</th>
                             <th>Acciones</th>
                         </tr>
 HEAD;
@@ -95,6 +96,7 @@ HEAD;
                     <td>{$task['description']}</td>
                     <td>{$startDate}</td>
                     <td>{$finishDate}</td>
+                    <td>---</td>
                     <td><button class=button>Editar</button> - <button class=button>Eliminar</button></td>
                 </tr>
 BODY;
